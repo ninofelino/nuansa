@@ -1,0 +1,452 @@
+<odoo>
+    <data>
+       <template id="print" name="cetak">
+             
+               
+           <style>
+            html, body {
+            width: 5.5in; /* was 8.5in */
+            height: 8.5in; /* was 5.5in */
+            display: block;
+            background-color:#FFDFDF;
+            font-family: "Calibri";
+            /*font-size: auto; NOT A VALID PROPERTY */
+             }
+
+    @page {
+        size: 5.5in 8.5in /* . Random dot? */;
+    }
+           @media print {
+    html, body {
+        width: 5.5in; /* was 8.5in */
+        height: 8.5in; /* was 5.5in */
+        display: block;
+        font-family: "Calibri";
+        background-color:#FFDFDF;
+        /*font-size: auto; NOT A VALID PROPERTY */
+    }
+
+    @page {
+        size: 5.5in 8.5in /* . Random dot? */;
+    }
+}
+           </style>   
+           <body> 
+           <p>dot Matrix</p>
+           </body>  
+           <span t-raw="cetakan"/>
+            
+       </template> 
+       <template id="vendor" name="vendor">
+             <t t-call="website.layout">
+                 <center t-raw="judul"/>
+             
+            <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/felino/static/js/jqtree.css" />
+            <link rel="stylesheet" href="/felino/static/js/spinner.css" />
+            <script src="/felino/static/js/tree.jquery.js"></script>
+            <script src="/felino/static/js/felino.js"></script>
+            <script src="/felino/static/js/spinner.js"></script>
+            <script src="/felino/static/js/jquery.pleaseWait.js"></script>
+            </xpath>       
+         
+            <div class="row">
+                 <div class="col-sm-2">
+                   
+                    <div id="kiri" style="height:500px;border:1px solid #ccc;overflow:auto;" >
+                   
+                    <div  t-raw="kiri"></div>
+                    <span t-raw="menu"/>
+                  
+                    
+                    <div id="pesan"></div>     
+                    
+                    </div>
+                 </div>
+                 
+                 <div class="col-sm-8">
+                                  
+                      <div id="dikanan">
+                            <div  t-raw="kanan"></div>
+                      </div>
+                 </div>
+            </div>     
+            
+            
+            <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                 <div class="modal-content">
+                       <h2>Dialog</h2>
+                 </div>
+            </div>
+            </div>
+            </t>
+       </template>
+
+       <template id="mclass" name="mc">
+             <t t-call="website.layout">
+                 <center t-raw="judul"/>
+             
+            <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/felino/static/js/jqtree.css" />
+            <link rel="stylesheet" href="/felino/static/js/spinner.css" />
+            <script src="/felino/static/js/tree.jquery.js"></script>
+            <script src="/felino/static/js/nino.js"></script>
+            <script src="/felino/static/js/spinner.js"></script>
+            <script src="/felino/static/js/jquery.pleaseWait.js"></script>
+            <script>
+            </script> 
+            </xpath>   
+            <style>
+            @media print 
+            {
+
+
+             html, body {
+             width: 5.5in; /* was 8.5in */
+             height: 8.5in; /* was 5.5in */
+             display: block; 
+             font-family: "Calibri";
+             margin: 0;
+             }
+
+
+              @page
+              {
+                size: 5.5in 8.5in ;
+              }
+            }
+             
+            @page :left {
+              margin-left: 2cm;
+            }
+
+            @page :right {
+              margin-left: 2cm;
+            } 
+             
+            @page:right{
+  @bottom-right {
+    content: counter(page);
+  }
+}
+
+@page:left{
+  @bottom-left {
+    content: counter(page);
+  }
+}
+
+            .tree { margin: 1em; }
+            .tree input {
+              position: absolute;
+              clip: rect(0, 0, 0, 0);
+              }
+
+            .tree input ~ ul { display: none; }
+
+            .tree input:checked ~ ul { display: block; }
+
+            /* ————————————————————–
+              Tree rows
+            */
+            .tree li {
+              line-height: 1.2;
+              position: relative;
+              padding: 0 0 1em 1em;
+              }
+
+            .tree ul li { padding: 1em 0 0 1em; }
+
+            .tree > li:last-child { padding-bottom: 0; }
+
+            /* ————————————————————–
+              Tree labels
+            */
+            .tree_label {
+              position: relative;
+              display: inline-block;
+              background: #fff;
+              }
+
+            label.tree_label { cursor: pointer; }
+
+            label.tree_label:hover { color: #666; }
+
+            /* ————————————————————–
+              Tree expanded icon
+            */
+            label.tree_label:before {
+              background: #000;
+              color: #fff;
+              position: relative;
+              z-index: 1;
+              float: left;
+              margin: 0 1em 0 -2em;
+              width: 1em;
+              height: 1em;
+              border-radius: 1em;
+              content: '+';
+              text-align: center;
+              line-height: .9em;
+              }
+
+            :checked ~ label.tree_label:before { content: '–'; }
+
+            /* ————————————————————–
+              Tree branches
+            */
+            .tree li:before {
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              left: -.5em;
+              display: block;
+              width: 0;
+              border-left: 1px solid #777;
+              content: "";
+              }
+
+            .tree_label:after {
+              position: absolute;
+              top: 0;
+              left: -1.5em;
+              display: block;
+              height: 0.5em;
+              width: 1em;
+              border-bottom: 1px solid #777;
+              border-left: 1px solid #777;
+              border-radius: 0 0 0 .3em;
+              content: '';
+              }
+
+            label.tree_label:after { border-bottom: 0; }
+
+            :checked ~ label.tree_label:after {
+              border-radius: 0 .3em 0 0;
+              border-top: 1px solid #777;
+              border-right: 1px solid #777;
+              border-bottom: 0;
+              border-left: 0;
+              bottom: 0;
+              top: 0.5em;
+              height: auto;
+              }
+
+            .tree li:last-child:before {
+              height: 1em;
+              bottom: auto;
+              }
+
+            .tree > li:last-child:before { display: none; }
+
+            .tree_custom {
+              display: block;
+              background: #eee;
+              padding: 1em;
+              border-radius: 0.3em;
+            }
+            </style>    
+         
+            <div class="row">
+                 <div class="col-sm-4">
+                   
+                    <div id="kiri" style="height:500px;border:1px solid #ccc;overflow:auto;" >
+                    <a href="/felino">Home</a>
+                    <div  t-raw="kiri"></div>
+                    <span t-raw="menu"/>
+                  
+                    
+                    <div id="pesan"></div>     
+                    
+                    </div>
+                 </div>
+                 
+                 <div class="col-sm-8">
+                                  
+                      <div id="dikanan">
+                            <div  t-raw="kanan"></div>
+                      </div>
+                 </div>
+            </div>     
+            
+            
+            <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                 <div class="modal-content">
+                       <h2>Dialog</h2>
+                 </div>
+            </div>
+            </div>
+            <span t-raw="script"/>
+            </t>
+       </template>
+
+       <template id="gateway" name="gw">
+             <t t-call="website.layout">
+                 <center t-raw="judul"/>
+             
+            <xpath expr="." position="inside">
+                   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jqc-1.12.4/jszip-2.5.0/dt-1.10.18/af-2.3.2/b-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/fh-3.1.4/kt-2.5.0/r-2.2.2/rg-1.1.0/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.min.css"/>
+                   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+                   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css"/>
+                   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"/>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"/>
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"/>
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+                   <script>
+                          $(document).ready(function(event) {
+                          $(function () { 
+                           $('#jstree').jstree();
+                           $("td.numeric").each(function () {
+                             $(this).text=numeral(10000);
+                           });
+                           $('#kiri').DataTable(
+                           {dom: 'Bfrtip',buttons: ['print','csv','excel','copy']});
+                
+
+                           $('#kanan').DataTable(
+                           {dom: 'Bfrtip',buttons: ['print','csv','excel','copy']});
+                
+                });
+                })
+                
+                   </script>
+                   <style>
+                  td {
+                  
+                   text-align: right;
+                   }
+                   </style>
+            </xpath>       
+            <div class="container">
+            <div class="row">
+                 <div class="col-sm-3">
+                    <a href="/felino">Home</a>
+                    <div id="kiri">KIRI</div>
+                    <span t-raw="menu"/>
+
+                    <div class="panel panel-default" t-raw="kiri">
+                        
+                    
+                    </div>
+                 </div>
+                 
+                 <div class="col-sm-9" t-raw="kanan">
+                      
+                 </div>
+            </div>     
+            </div>
+            </t>
+       </template>
+
+       <template id="search" name="cari">
+             <t t-call="website.layout">
+                 <center t-raw="judul"/>
+             
+            <xpath expr="." position="inside">
+                   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jqc-1.12.4/jszip-2.5.0/dt-1.10.18/af-2.3.2/b-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/fh-3.1.4/kt-2.5.0/r-2.2.2/rg-1.1.0/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.min.css"/>
+                   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+                   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css"/>
+                   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"/>
+                   <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"/>
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"/>
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+                   
+                   <script>
+                           
+                          $(document).ready(function(event) {
+                          
+                          
+                            $("td.numeric").each(function () {
+                             $(this).text='numeral(10000)'';
+                           
+
+                           $('#jstree').jstree();
+                           $('#kiri').DataTable(
+                           {dom: 'Bfrtip',buttons: ['print','csv','excel','copy']});
+                
+
+                           $('#kanan').DataTable(
+                           {dom: 'Bfrtip',buttons: ['print','csv','excel','copy']});
+                
+                });
+                })
+                
+                   </script>
+
+
+                   <script>
+functiom cetak(){
+  alert("Print");
+};                   
+function showResult(str) {
+  if (str.length==0) { 
+    document.getElementById("livesearch").innerHTML="";
+    document.getElementById("livesearch").style.border="0px";
+    return;
+  }
+  if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else {  // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (this.readyState==4 ) {
+      document.getElementById("livesearch").innerHTML=this.responseText;
+       $("td.numeric").each(function () {
+                             $(this).text('numeral(10000)');
+                           
+      
+    }
+  }
+  xmlhttp.open("GET","/felino/data/"+str,true);
+  xmlhttp.send();
+}
+</script>
+            </xpath>       
+            <div class="container">
+            <div class="row">
+                 
+                 <div class="col-sm-3">
+                    <a href="/felino">Home</a>
+                         <a href="localhost:8069/felino/print">Print</a>
+                         <button onclick="cetak()">P</button>
+                         <input class="form-control" type="text" placeholder="Search" aria-label="Search" onkeyup="showResult(this.value)"/>
+                         <span t-raw="kiri"></span> 
+                    
+                    
+                    <a href="31">App</a>
+                 </div>
+                 <center>Search</center>
+                 
+                
+ 
+                 
+                 <div class="col-sm-9" t-raw="kanan">
+                       {"direct print"}
+                      <button>Direct Print</button>
+                      <div id="livesearch"></div>
+                 </div>
+            </div>     
+            </div>
+            </t>
+       </template>
+
+
+     
+
+    </data>
+</odoo>

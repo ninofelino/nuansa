@@ -1,0 +1,23 @@
+External ID's are not created unless you import or export data, so your newly created records won't have them.
+
+In Python, you would create a dictionary containing the model, module, name and res_id (of the record you just created), then add a new entry in the ir_model_data model.
+
+
+===============================
+TOKO Sepatu ABC
+Phone
+Cashier:
+===============================
+BEATRIS NAVY/TOSCA
+(37)                 1  100.000
+
+BEATRIS NAVY/TOSCA
+(37)                 1  100.000
+
+BEATRIS NAVY/TOSCA
+(37)  disc           1  100.000
+-------------------------------
+subtotal           : 
+TOTAL              : 
+Cash               :
+Change             : 

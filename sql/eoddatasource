@@ -1,0 +1,7 @@
+select tanggal,toko,category,sum(qty) as qty,sum(sale) as sale,sum(cost) as cost,sum(margin) as margin
+from
+(
+select toko,tanggal,category,qty,qty*price as sale,qty*cprice as cost,qty*price-qty*cprice as margin
+from felino_eoddetail
+) t
+group by 1,2,3
