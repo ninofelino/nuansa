@@ -1271,9 +1271,10 @@ class Felino(http.Controller):
           print('>>>>>>>>>>>>>Stock<<<<<<<<<<<<<<<<<<<<<')
           st=stock.Stock()
           #
-          st.poserver()
+          #st.poserver()
+          
+          #st.importStock()
           st.inv2odoo()
-          st.importStock()
           #st.testinv()
          
           return "http.request.render('point_of_sale.index')"

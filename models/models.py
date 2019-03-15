@@ -3,6 +3,7 @@ import os
 from odoo import models, fields, api
 class felino(models.Model):
      _name = 'felino.felino'
+     _description = "data dari inv.dbf"
      name = fields.Char()
      locasi  = fields.Char()
      tanggal = fields.Char()
@@ -14,7 +15,8 @@ class felino(models.Model):
      ondhand  = fields.Integer()
      sale_price = fields.Char()
      list_price = fields.Char()
-     description = fields.Text()
+     
+     description = fields.Text("Description")
 
 class felinoproduct(models.Model):     
      _inherit='product.template'
@@ -43,6 +45,7 @@ class eod(models.Model):
       tanggal=fields.Date()
       toko=fields.Char()
       periode=fields.Char()
+      description = fields.Text("Description")
       catagory=fields.Many2one('felino.felino',string="barcode",store=False)
  
 class eod(models.Model):

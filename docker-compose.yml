@@ -1,0 +1,21 @@
+version: '2'
+services: null
+web: null
+build: .
+restart: always
+image: 'postgres:9.4'
+depends_on:
+  - db
+ports:
+  - '5432:5432'
+volumes: null
+command: python odoo-bin -c /etc/odoo.conf --xmlrpc-port 8069
+links:
+  - db
+db: null
+environment:
+  - POSTGRES_PASSWORD=odoo
+  - POSTGRES_USER=odoo
+  - PGDATA=/var/lib/postgresql/data/pgdata
+odoo-web-data: null
+odoo-db-data: null

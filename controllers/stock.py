@@ -13,7 +13,7 @@ class Stock:
      
       def __init__(self):
           self.data = []
-          self.db = dataset.connect('postgresql://felino:felino@localhost/nbi')
+          self.db = dataset.connect('postgresql://felino:felino@localhost/nbiabc')
           #cr.dbname
       def inv2odoo(self):
           self.data = []
@@ -79,7 +79,7 @@ class Stock:
           """
           attribut="""
           INSERT INTO public.product_attribute(
-            id, name) VALUES(1,'SIZE') ON CONFLICT DO NOTHING;
+            id, name,create_variant) VALUES(1,'SIZE','always') ON CONFLICT DO NOTHING;
           """
           attribut_line_product_attribute_value="""
           INSERT INTO public.product_attribute_line_product_attribute_value_rel(
@@ -114,19 +114,12 @@ class Stock:
               vendor=rec['vendorid']
               if not rec['mclscode'] is None:
                  category=rec['mclscode']
-              id.write({'name':rec['article'],'active':True,'type':'product','list_price':rec['list_price'],'categ_id':category,'purchase_method':'receive','company_id':1,'purchase_ok':True,'rental':False,'standard_price':rec['standard_price'],'default_code':rec['id'],'vendor':vendor})
+              id.write({'name':rec['article'],'active':True,'type':'product','list_price':rec['list_price'],'categ_id':category,'purchase_method':'receive','company_id':1,'purchase_ok':True,'rental':False,'standard_price':rec['standard_price'],'default_code':rec['id'],'vendor':vendor,'available_in_pos':True})
               print('write--------------------------------------',attribut_line)
               print(attribut_line %(rec['id'],rec['id']))
-              http.request.cr.execute(attribut_line %(rec['id'],rec['id']))
+              #http.request.cr.execute(attribut_line %(rec['id'],rec['id']))
               product=rec['product']
-              http.request.cr.commit() 
-              try:
-                 pass 
-                 #with http.request.env.cr.savepoint(): 
-                 #     http.request.cr.execute("delete from product_product where product_tmpl_id="+str(rec['id']))
-                 #     http.request.cr.commit()
-              except:
-                  pass    
+              #http.request.cr.commit() 
               attr=''
             
               for pro in product:
@@ -139,8 +132,8 @@ class Stock:
                         print(pro) 
                         attr=(produck_line_attr %(rec['id'],pro['attribute']))
                         print('>>>>>>>>>>>>>>>>>',pro['attribute'])
-                        http.request.cr.execute(attr)
-                        http.request.cr.commit()
+                        #http.request.cr.execute(attr)
+                        #http.request.cr.commit()
                         print('++++++++++++++')
                         rel=product_attribute_value_product_product_rel %(pro['barcode'],pro['attribute'])  
                         print('++++++++++++++',rel)
@@ -148,7 +141,7 @@ class Stock:
                            http.request.cr.execute(rel)
                            http.request.cr.commit()
                         except:
-                            pass    
+                           time.sleep( 5 )   
                   #print(atr_line)   
                  
                   
@@ -158,10 +151,7 @@ class Stock:
       def poserver(self):
           server='/mnt/poserver/ics/DAT/'
           X=0
-          #db = dataset.connect('sqlite:///poserverdb.db')
           fileupload=['RETST1','RETST2','RTSU1','RTSU2','RETSU1','RETSU2','RDIS1','RDIS2','TRANS1','TRANS2','STORE','SUP','RCV1','RCV2','INV','TRANS2S1','TRANS2S2','CUS','SUP'] 
-         
-          #fileupload=['INV'] 
           for fupload in fileupload:
               uk=['ALL','01','2','3','4','5','O','S','M','L','XL','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45']
               namafile=server+fupload+'.DBF'
@@ -174,14 +164,13 @@ class Stock:
                      record['nomor']=X
                      if fupload=='INV':
                         ukuran=''   
-                        print('--------->>>>>>>>>>>>>>>>',X)
-                        #rex=r'\sS|\sM$|\sL$|\sXL$|\sXXL$|\s1$|\s2$|\s3$|\s4$|\s5$|\s6$|\s7$|\s8$|\s9$|\s18|\s19|\s20|\s21|\s22|\s23|\s24|\s25|\s26|\s27|\s28|\s29|\s30|\s31|\s32|\s33|\s34|\s35|\s36|\s36\s|\s37|\s37\s|\s38|\s38\s|\s39|\s40|\s41|\s42|\s43|\s44|\s45'
+                        print(X,'--------->>>>>>>>>>>>>>>>',X)
                         rex=r'\s\d{2}$|\s\d{2}\s|\s\D$|\sS$|\sS\s|\sXL$|\sXL\s|\sXXL$|\sXXL\s|\sXXXL$|\sXXXL\s|\sd$'
                         if re.search(rex,record['DESC1']):
                            record['ukuran']=re.search(rex,record['DESC1']).group(0)
                            record['ukuran']=record['ukuran'].strip()
                            record['article']=re.sub(record['ukuran'],'',record['DESC1'])
-                           
+                        
                            if not record['ukuran'] in uk:
                                 record['index']=0
                            else:
@@ -190,8 +179,6 @@ class Stock:
                         else:
                            record['ukuran']=''   
                            record['article']=record['DESC1']
-                           
-                           #record['atribute_value']=
                         print("mclass->>>>>>>>>>>>>>>>>>>>>>>>>..") 
                         record['categ_id']=0
                         #record['MCLSCODE'].replace('A','1').replace('B','2').replace('C','3').replace('D','4').replace('E','5'),replace('F','6').replace('G','7').replace('H','8').replace('M','')
@@ -304,7 +291,7 @@ true as active,
 
               sup=http.request.env['res.partner'].browse(row['PARTNER_ID'])
               move_lines=[(0,0,{})]
-              data={'state':'assigned','name':row['PONUM'],'location_id':1,'location_dest_id':1,'picking_type_id':1,'partner_id':row['PARTNER_ID'],'scheduled_date':row['PODATE']}
+              data={'state':'assigned','name':row['PONUM'],'location_id':1,'location_dest_id':1,'picking_type_id':1,'partner_id':row['PARTNER_ID'],'scheduled_date':str(row['PODATE'])}
               udata={'location_id':1,'location_dest_id':1,'picking_type_id':1,'partner_id':row['PARTNER_ID'],'state':'assigned','scheduled_date':row['PODATE']}
               cari=http.request.env['stock.picking'].search([('name','=',row['PONUM'])])
               if not cari.exists():
