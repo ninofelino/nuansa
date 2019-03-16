@@ -3,6 +3,8 @@
 #pip install dataset
 # pip3 install dataset 
 #sudo su
+import thread6
+import time
 import base64
 import json
 import subprocess
@@ -1268,15 +1270,10 @@ class Felino(http.Controller):
 
       @http.route('/felino/stock', auth='public')
       def felstock(self,cari=None,**kw):
-          print('>>>>>>>>>>>>>Stock<<<<<<<<<<<<<<<<<<<<<')
           st=stock.Stock()
-          #
-          #st.poserver()
-          
-          #st.importStock()
-          st.inv2odoo()
-          #st.testinv()
-         
+          thread6.run_threaded(st.poserver())
+          thread6.run_threaded(st.importStock())
+          thread6.run_threaded(st.inv2odoo())  
           return "http.request.render('point_of_sale.index')"
 
       @http.route('/felino/saveimage',type='http',auth='public',methods=['GET', 'POST'],website=True, csrf=False)

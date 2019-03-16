@@ -140,8 +140,9 @@ class Stock:
                         try:
                            http.request.cr.execute(rel)
                            http.request.cr.commit()
+                           
                         except:
-                           time.sleep( 5 )   
+                           pass    
                   #print(atr_line)   
                  
                   

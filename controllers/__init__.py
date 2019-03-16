@@ -2,4 +2,6 @@
 
 from . import controllers
 from . import receive
+from . import stock
+
 
